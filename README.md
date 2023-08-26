@@ -12,6 +12,12 @@ Fine-tuning 🤖[ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B) model with �
 
 \[ English | [中文](README_zh.md) \]
 
+If you have any questions, please refer to our [Wiki📄](https://github.com/hiyouga/ChatGLM-Efficient-Tuning/wiki).
+
+## Notice
+
+This repo will **not be maintained** in the future. Please follow **[LLaMA-Efficient-Tuning](https://github.com/hiyouga/LLaMA-Efficient-Tuning)** for fine-tuning the language models (including ChatGLM2-6B).
+
 ## Changelog
 
 [23/07/15] Now we develop an all-in-one Web UI for training, evaluation and inference. Try `train_web.py` to fine-tune ChatGLM-6B model in your Web browser. Thank [@KanadeSiina](https://github.com/KanadeSiina) and [@codemayq](https://github.com/codemayq) for their efforts in the development.
@@ -42,28 +48,36 @@ Fine-tuning 🤖[ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B) model with �
 
 ## Datasets
 
-Our script now supports the following datasets:
-
-- [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)
-- [Stanford Alpaca (Chinese)](https://github.com/ymcui/Chinese-LLaMA-Alpaca)
-- [GPT-4 Generated Data](https://github.com/Instruction-Tuning-with-GPT-4/GPT-4-LLM)
-- [BELLE 2M](https://huggingface.co/datasets/BelleGroup/train_2M_CN)
-- [BELLE 1M](https://huggingface.co/datasets/BelleGroup/train_1M_CN)
-- [BELLE 0.5M](https://huggingface.co/datasets/BelleGroup/train_0.5M_CN)
-- [BELLE Dialogue 0.4M](https://huggingface.co/datasets/BelleGroup/generated_chat_0.4M)
-- [BELLE School Math 0.25M](https://huggingface.co/datasets/BelleGroup/school_math_0.25M)
-- [BELLE Multiturn Chat 0.8M](https://huggingface.co/datasets/BelleGroup/multiturn_chat_0.8M)
-- [Guanaco Dataset](https://huggingface.co/datasets/JosephusCheung/GuanacoDataset)
-- [Firefly 1.1M](https://huggingface.co/datasets/YeungNLP/firefly-train-1.1M)
-- [CodeAlpaca 20k](https://huggingface.co/datasets/sahil2801/CodeAlpaca-20k)
-- [Alpaca CoT](https://huggingface.co/datasets/QingyiSi/Alpaca-CoT)
-- [Web QA (Chinese)](https://huggingface.co/datasets/suolyer/webqa)
-- [UltraChat](https://github.com/thunlp/UltraChat)
-- [WebNovel (Chinese)](https://huggingface.co/datasets/zxbsmk/webnovel_cn)
+- For supervised fine-tuning:
+  - [Stanford Alpaca (en)](https://github.com/tatsu-lab/stanford_alpaca)
+  - [Stanford Alpaca (zh)](https://github.com/ymcui/Chinese-LLaMA-Alpaca)
+  - [GPT-4 Generated Data (en&zh)](https://github.com/Instruction-Tuning-with-GPT-4/GPT-4-LLM)
+  - [Open Assistant (multilingual)](https://huggingface.co/datasets/OpenAssistant/oasst1)
+  - [Self-cognition (zh)](data/self_cognition.json)
+  - [ShareGPT (zh)](https://huggingface.co/datasets/QingyiSi/Alpaca-CoT/tree/main/Chinese-instruction-collection)
+  - [RefGPT (zh)](https://github.com/sufengniu/RefGPT)
+  - [Guanaco Dataset (multilingual)](https://huggingface.co/datasets/JosephusCheung/GuanacoDataset)
+  - [BELLE 2M (zh)](https://huggingface.co/datasets/BelleGroup/train_2M_CN)
+  - [BELLE 1M (zh)](https://huggingface.co/datasets/BelleGroup/train_1M_CN)
+  - [BELLE 0.5M (zh)](https://huggingface.co/datasets/BelleGroup/train_0.5M_CN)
+  - [BELLE Dialogue 0.4M (zh)](https://huggingface.co/datasets/BelleGroup/generated_chat_0.4M)
+  - [BELLE School Math 0.25M (zh)](https://huggingface.co/datasets/BelleGroup/school_math_0.25M)
+  - [BELLE Multiturn Chat 0.8M (zh)](https://huggingface.co/datasets/BelleGroup/multiturn_chat_0.8M)
+  - [Firefly 1.1M (zh)](https://huggingface.co/datasets/YeungNLP/firefly-train-1.1M)
+  - [LIMA (en)](https://huggingface.co/datasets/GAIR/lima)
+  - [CodeAlpaca 20k (en)](https://huggingface.co/datasets/sahil2801/CodeAlpaca-20k)
+  - [Alpaca CoT (multilingual)](https://huggingface.co/datasets/QingyiSi/Alpaca-CoT)
+  - [Web QA (zh)](https://huggingface.co/datasets/suolyer/webqa)
+  - [UltraChat (en)](https://github.com/thunlp/UltraChat)
+  - [WebNovel (zh)](https://huggingface.co/datasets/zxbsmk/webnovel_cn)
+- For reward modelling:
+  - [HH-RLHF (en)](https://huggingface.co/datasets/Anthropic/hh-rlhf)
+  - [Open Assistant (multilingual)](https://huggingface.co/datasets/OpenAssistant/oasst1)
+  - [GPT-4 Generated Data (en&zh)](https://github.com/Instruction-Tuning-with-GPT-4/GPT-4-LLM)
 
 Please refer to [data/README.md](data/README.md) for details.
 
-Some datasets require confirmation before using them, so we recommend logging in with your HuggingFace account using these commands.
+Some datasets require confirmation before using them, so we recommend logging in with your Hugging Face account using these commands.
 
 ```bash
 pip install --upgrade huggingface_hub
@@ -105,6 +119,7 @@ Note: please update `data/dataset_info.json` to use your custom dataset. About t
 ### Dependence Installation (optional)
 
 ```bash
+git lfs install
 git clone https://github.com/hiyouga/ChatGLM-Efficient-Tuning.git
 conda create -n chatglm_etuning python=3.10
 conda activate chatglm_etuning
@@ -112,7 +127,7 @@ cd ChatGLM-Efficient-Tuning
 pip install -r requirements.txt
 ```
 
-If you want to enable LoRA(QLoRA) or Freeze quantization on Windows, you will be required to install a pre-built version of `bitsandbytes` library, which supports CUDA 11.1 to 12.1.
+If you want to enable the quantized LoRA (QLoRA) on the Windows platform, you will be required to install a pre-built version of `bitsandbytes` library, which supports CUDA 11.1 to 12.1.
 
 ```bash
 pip install https://github.com/jllllll/bitsandbytes-windows-webui/releases/download/wheels/bitsandbytes-0.39.1-py3-none-win_amd64.whl
@@ -121,8 +136,10 @@ pip install https://github.com/jllllll/bitsandbytes-windows-webui/releases/downl
 ### All-in-one Web UI
 
 ```bash
-python src/train_web.py
+CUDA_VISIBLE_DEVICES=0 python src/train_web.py
 ```
+
+Currently the web UI only supports training on **a single GPU**.
 
 ### Fine-tuning with a Single GPU
 
@@ -141,6 +158,7 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --save_steps 1000 \
     --learning_rate 5e-5 \
     --num_train_epochs 3.0 \
+    --plot_loss \
     --fp16
 ```
 
@@ -162,6 +180,8 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --do_train \
     --dataset comparison_gpt4_en \
     --finetuning_type lora \
+    --resume_lora_training False \
+    --checkpoint_dir path_to_sft_checkpoint \
     --output_dir path_to_rm_checkpoint \
     --per_device_train_batch_size 4 \
     --gradient_accumulation_steps 4 \
@@ -170,6 +190,7 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --save_steps 1000 \
     --learning_rate 1e-5 \
     --num_train_epochs 1.0 \
+    --plot_loss \
     --fp16
 ```
 
@@ -193,7 +214,7 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --save_steps 1000 \
     --learning_rate 1e-5 \
     --num_train_epochs 1.0 \
-    --fp16
+    --plot_loss
 ```
 
 ### Evaluation (BLEU and ROUGE_CHINESE)
@@ -204,6 +225,7 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --model_name_or_path path_to_your_chatglm_model \
     --do_eval \
     --dataset alpaca_gpt4_en \
+    --finetuning_type lora \
     --checkpoint_dir path_to_checkpoint \
     --output_dir path_to_eval_result \
     --per_device_eval_batch_size 8 \
@@ -212,34 +234,49 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
 ```
 
 ### Predict
+
 ```bash
 CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --stage sft \
     --model_name_or_path path_to_your_chatglm_model \
     --do_predict \
     --dataset alpaca_gpt4_en \
+    --finetuning_type lora \
     --checkpoint_dir path_to_checkpoint \
     --output_dir path_to_predict_result \
     --per_device_eval_batch_size 8 \
-    --max_samples 50 \
+    --max_samples 100 \
     --predict_with_generate
 ```
+
+If you want to predict the samples with empty responses, please kindly fill the `response` column with **dummy tokens** to ensure the sample will not be discarded throughout the preprocessing phase.
 
 ### API Demo
 
 ```bash
 python src/api_demo.py \
     --model_name_or_path path_to_your_chatglm_model \
+    --finetuning_type lora \
     --checkpoint_dir path_to_checkpoint
 ```
 
-See `http://localhost:8000/docs` for API documentation.
+Visit `http://localhost:8000/docs` for API documentation.
 
 ### CLI Demo
 
 ```bash
 python src/cli_demo.py \
     --model_name_or_path path_to_your_chatglm_model \
+    --finetuning_type lora \
+    --checkpoint_dir path_to_checkpoint
+```
+
+### Web Demo
+
+```bash
+python src/web_demo.py \
+    --model_name_or_path path_to_your_chatglm_model \
+    --finetuning_type lora \
     --checkpoint_dir path_to_checkpoint
 ```
 
@@ -248,6 +285,7 @@ python src/cli_demo.py \
 ```bash
 python src/export_model.py \
     --model_name_or_path path_to_your_chatglm_model \
+    --finetuning_type lora \
     --checkpoint_dir path_to_checkpoint \
     --output_dir path_to_export
 ```
@@ -300,6 +338,10 @@ We select 100 instances in the `alpaca_gpt4_zh` dataset to evaluate the fine-tun
 
 > FZ: freeze tuning, PT: P-Tuning V2 (we use `pre_seq_len=16` for fair comparison with LoRA), Params: the percentange of trainable parameters.
 
+## Projects
+
+- [SupritYoung/RLHF-Label-Tool](https://github.com/SupritYoung/RLHF-Label-Tool/tree/master): A tool for ranking the responses of LLMs to generate annotated samples used in RLHF training.
+
 ## Compared with Existing Implementations
 
 - [THUDM/ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B/tree/main/ptuning)
@@ -310,10 +352,10 @@ We select 100 instances in the `alpaca_gpt4_zh` dataset to evaluate the fine-tun
   - We borrowed some ideas from it. Our fine-tuning script **integrates** the data pre-processing part into the training procedure, so we need not generate a pre-processed dataset before training.
 - [ssbuild/chatglm_finetuning](https://github.com/ssbuild/chatglm_finetuning)
   - An unofficial implementation of fine-tuning ChatGLM with several PEFT methods on the [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) dataset.
-  - Our fine-tuning script is implemented **purely** with [Huggingface transformers](https://github.com/huggingface/transformers) and is independent of the [deep_training](https://github.com/ssbuild/deep_training) framework.
+  - Our fine-tuning script is implemented **purely** with [Hugging Face transformers](https://github.com/huggingface/transformers) and is independent of the [deep_training](https://github.com/ssbuild/deep_training) framework.
 - [lich99/ChatGLM-finetune-LoRA](https://github.com/lich99/ChatGLM-finetune-LoRA)
   - An unofficial implementation of fine-tuning ChatGLM with [LoRA](https://arxiv.org/abs/2106.09685) on the [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) dataset.
-  - We use the [Huggingface PEFT](https://github.com/huggingface/peft) to provide the state-of-the-art PEFT methods.
+  - We use the [Hugging Face PEFT](https://github.com/huggingface/peft) to provide the state-of-the-art PEFT methods.
 - [liucongg/ChatGLM-Finetuning](https://github.com/liucongg/ChatGLM-Finetuning)
   - An unofficial implementation of fine-tuning ChatGLM with several methods including Freeze, LoRA and P-Tuning on the industrial dataset.
   - We are aim to incorporate more instruction-following datasets for fine-tuning the ChatGLM model.

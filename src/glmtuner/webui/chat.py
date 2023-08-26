@@ -11,10 +11,12 @@ from glmtuner.webui.locales import ALERTS
 
 class WebChatModel(ChatModel):
 
-    def __init__(self):
+    def __init__(self, *args):
         self.model = None
         self.tokenizer = None
         self.generating_args = GeneratingArguments()
+        if len(args) != 0:
+            super().__init__(*args)
 
     def load_model(
         self,
@@ -68,14 +70,25 @@ class WebChatModel(ChatModel):
         chatbot: List[Tuple[str, str]],
         query: str,
         history: List[Tuple[str, str]],
+        prefix: str,
         max_length: int,
         top_p: float,
         temperature: float
     ):
         chatbot.append([query, ""])
         response = ""
-        for new_text in self.stream_chat(query, history, max_length=max_length, top_p=top_p, temperature=temperature):
+        for new_text in self.stream_chat(
+            query, history, prefix, max_length=max_length, top_p=top_p, temperature=temperature
+        ):
             response += new_text
+            response = self.postprocess(response)
             new_history = history + [(query, response)]
             chatbot[-1] = [query, response]
             yield chatbot, new_history
+
+    def postprocess(self, response: str) -> str:
+        blocks = response.split("```")
+        for i, block in enumerate(blocks):
+            if i % 2 == 0:
+                blocks[i] = block.replace("<", "&lt;").replace(">", "&gt;")
+        return "```".join(blocks)

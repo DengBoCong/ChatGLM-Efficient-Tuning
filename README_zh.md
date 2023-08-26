@@ -12,6 +12,12 @@
 
 \[ [English](README.md) | 中文 \]
 
+如果有任何疑问，请阅读我们的 [文档 📄](https://github.com/hiyouga/ChatGLM-Efficient-Tuning/wiki)。
+
+## 公告
+
+该项目今后**将不再维护**。请关注 **[LLaMA-Efficient-Tuning](https://github.com/hiyouga/LLaMA-Efficient-Tuning)** 大模型微调项目（包含 ChatGLM2-6B 模型）。
+
 ## 更新日志
 
 [23/07/15] 我们开发了支持训练和测试的浏览器一键微调界面。请尝试使用 `train_web.py` 在您的浏览器中微调 ChatGLM-6B 模型。感谢 [@KanadeSiina](https://github.com/KanadeSiina) 和 [@codemayq](https://github.com/codemayq) 在该功能开发中付出的努力。
@@ -48,28 +54,36 @@
 
 ## 数据集
 
-目前我们实现了针对以下数据集的支持：
+- SFT 训练：
+  - [Stanford Alpaca (en)](https://github.com/tatsu-lab/stanford_alpaca)
+  - [Stanford Alpaca (zh)](https://github.com/ymcui/Chinese-LLaMA-Alpaca)
+  - [GPT-4 Generated Data (en&zh)](https://github.com/Instruction-Tuning-with-GPT-4/GPT-4-LLM)
+  - [Open Assistant (multilingual)](https://huggingface.co/datasets/OpenAssistant/oasst1)
+  - [Self-cognition (zh)](data/self_cognition.json)
+  - [ShareGPT (zh)](https://huggingface.co/datasets/QingyiSi/Alpaca-CoT/tree/main/Chinese-instruction-collection)
+  - [RefGPT (zh)](https://github.com/sufengniu/RefGPT)
+  - [Guanaco Dataset (multilingual)](https://huggingface.co/datasets/JosephusCheung/GuanacoDataset)
+  - [BELLE 2M (zh)](https://huggingface.co/datasets/BelleGroup/train_2M_CN)
+  - [BELLE 1M (zh)](https://huggingface.co/datasets/BelleGroup/train_1M_CN)
+  - [BELLE 0.5M (zh)](https://huggingface.co/datasets/BelleGroup/train_0.5M_CN)
+  - [BELLE Dialogue 0.4M (zh)](https://huggingface.co/datasets/BelleGroup/generated_chat_0.4M)
+  - [BELLE School Math 0.25M (zh)](https://huggingface.co/datasets/BelleGroup/school_math_0.25M)
+  - [BELLE Multiturn Chat 0.8M (zh)](https://huggingface.co/datasets/BelleGroup/multiturn_chat_0.8M)
+  - [Firefly 1.1M (zh)](https://huggingface.co/datasets/YeungNLP/firefly-train-1.1M)
+  - [LIMA (en)](https://huggingface.co/datasets/GAIR/lima)
+  - [CodeAlpaca 20k (en)](https://huggingface.co/datasets/sahil2801/CodeAlpaca-20k)
+  - [Alpaca CoT (multilingual)](https://huggingface.co/datasets/QingyiSi/Alpaca-CoT)
+  - [Web QA (zh)](https://huggingface.co/datasets/suolyer/webqa)
+  - [UltraChat (en)](https://github.com/thunlp/UltraChat)
+  - [WebNovel (zh)](https://huggingface.co/datasets/zxbsmk/webnovel_cn)
+- 奖励模型训练：
+  - [HH-RLHF (en)](https://huggingface.co/datasets/Anthropic/hh-rlhf)
+  - [Open Assistant (multilingual)](https://huggingface.co/datasets/OpenAssistant/oasst1)
+  - [GPT-4 Generated Data (en&zh)](https://github.com/Instruction-Tuning-with-GPT-4/GPT-4-LLM)
 
-- [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca)
-- [Stanford Alpaca (Chinese)](https://github.com/ymcui/Chinese-LLaMA-Alpaca)
-- [GPT-4 Generated Data](https://github.com/Instruction-Tuning-with-GPT-4/GPT-4-LLM)
-- [BELLE 2M](https://huggingface.co/datasets/BelleGroup/train_2M_CN)
-- [BELLE 1M](https://huggingface.co/datasets/BelleGroup/train_1M_CN)
-- [BELLE 0.5M](https://huggingface.co/datasets/BelleGroup/train_0.5M_CN)
-- [BELLE Dialogue 0.4M](https://huggingface.co/datasets/BelleGroup/generated_chat_0.4M)
-- [BELLE School Math 0.25M](https://huggingface.co/datasets/BelleGroup/school_math_0.25M)
-- [BELLE Multiturn Chat 0.8M](https://huggingface.co/datasets/BelleGroup/multiturn_chat_0.8M)
-- [Guanaco Dataset](https://huggingface.co/datasets/JosephusCheung/GuanacoDataset)
-- [Firefly 1.1M](https://huggingface.co/datasets/YeungNLP/firefly-train-1.1M)
-- [CodeAlpaca 20k](https://huggingface.co/datasets/sahil2801/CodeAlpaca-20k)
-- [Alpaca CoT](https://huggingface.co/datasets/QingyiSi/Alpaca-CoT)
-- [Web QA (Chinese)](https://huggingface.co/datasets/suolyer/webqa)
-- [UltraChat](https://github.com/thunlp/UltraChat)
-- [WebNovel (Chinese)](https://huggingface.co/datasets/zxbsmk/webnovel_cn)
+使用方法请参考 [data/README.md](data/README_zh.md) 文件。
 
-使用方法请参考 [data/README.md](data/README.md) 文件。
-
-部分数据集的使用需要确认，我们推荐使用下述命令登录您的 HuggingFace 账户。
+部分数据集的使用需要确认，我们推荐使用下述命令登录您的 Hugging Face 账户。
 
 ```bash
 pip install --upgrade huggingface_hub
@@ -111,6 +125,7 @@ huggingface-cli login
 ### 环境搭建（可跳过）
 
 ```bash
+git lfs install
 git clone https://github.com/hiyouga/ChatGLM-Efficient-Tuning.git
 conda create -n chatglm_etuning python=3.10
 conda activate chatglm_etuning
@@ -118,7 +133,7 @@ cd ChatGLM-Efficient-Tuning
 pip install -r requirements.txt
 ```
 
-对于 Windows 用户，若要启用 LoRA（QLoRA） 或 Freeze 的量化微调，请下载预构建的 `bitsandbytes` 包，目前支持 CUDA 11.1 到12.1。
+如果要在 Windows 平台上开启量化 LoRA（QLoRA），需要安装预编译的 `bitsandbytes` 库, 支持 CUDA 11.1 到 12.1.
 
 ```bash
 pip install https://github.com/jllllll/bitsandbytes-windows-webui/releases/download/wheels/bitsandbytes-0.39.1-py3-none-win_amd64.whl
@@ -127,8 +142,10 @@ pip install https://github.com/jllllll/bitsandbytes-windows-webui/releases/downl
 ### 浏览器一键微调/测试
 
 ```bash
-python src/train_web.py
+CUDA_VISIBLE_DEVICES=0 python src/train_web.py
 ```
+
+目前网页 UI 仅支持**单卡训练**。
 
 ### 单 GPU 微调训练
 
@@ -147,6 +164,7 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --save_steps 1000 \
     --learning_rate 5e-5 \
     --num_train_epochs 3.0 \
+    --plot_loss \
     --fp16
 ```
 
@@ -168,6 +186,8 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --do_train \
     --dataset comparison_gpt4_zh \
     --finetuning_type lora \
+    --resume_lora_training False \
+    --checkpoint_dir path_to_sft_checkpoint \
     --output_dir path_to_rm_checkpoint \
     --per_device_train_batch_size 4 \
     --gradient_accumulation_steps 4 \
@@ -176,6 +196,7 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --save_steps 1000 \
     --learning_rate 1e-5 \
     --num_train_epochs 1.0 \
+    --plot_loss \
     --fp16
 ```
 
@@ -188,6 +209,7 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --do_train \
     --dataset alpaca_gpt4_zh \
     --finetuning_type lora \
+    --resume_lora_training False \
     --checkpoint_dir path_to_sft_checkpoint \
     --reward_model path_to_rm_checkpoint \
     --output_dir path_to_ppo_checkpoint \
@@ -198,7 +220,7 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --save_steps 1000 \
     --learning_rate 1e-5 \
     --num_train_epochs 1.0 \
-    --fp16
+    --plot_loss
 ```
 
 ### 指标评估（BLEU分数和汉语ROUGE分数）
@@ -209,6 +231,7 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --model_name_or_path path_to_your_chatglm_model \
     --do_eval \
     --dataset alpaca_gpt4_zh \
+    --finetuning_type lora \
     --checkpoint_dir path_to_checkpoint \
     --output_dir path_to_eval_result \
     --per_device_eval_batch_size 8 \
@@ -217,12 +240,14 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
 ```
 
 ### 模型预测
+
 ```bash
 CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --stage sft \
     --model_name_or_path path_to_your_chatglm_model \
     --do_predict \
     --dataset alpaca_gpt4_zh \
+    --finetuning_type lora \
     --checkpoint_dir path_to_checkpoint \
     --output_dir path_to_predict_result \
     --per_device_eval_batch_size 8 \
@@ -230,11 +255,14 @@ CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --predict_with_generate
 ```
 
+注：如果需要预测的样本没有标签，请首先在 `response` 列中填入一些占位符，以免样本在预处理阶段被丢弃。
+
 ### API 服务
 
 ```bash
 python src/api_demo.py \
     --model_name_or_path path_to_your_chatglm_model \
+    --finetuning_type lora \
     --checkpoint_dir path_to_checkpoint
 ```
 
@@ -245,6 +273,16 @@ python src/api_demo.py \
 ```bash
 python src/cli_demo.py \
     --model_name_or_path path_to_your_chatglm_model \
+    --finetuning_type lora \
+    --checkpoint_dir path_to_checkpoint
+```
+
+### 浏览器测试
+
+```bash
+python src/web_demo.py \
+    --model_name_or_path path_to_your_chatglm_model \
+    --finetuning_type lora \
     --checkpoint_dir path_to_checkpoint
 ```
 
@@ -253,6 +291,7 @@ python src/cli_demo.py \
 ```bash
 python src/export_model.py \
     --model_name_or_path path_to_your_chatglm_model \
+    --finetuning_type lora \
     --checkpoint_dir path_to_checkpoint \
     --output_dir path_to_export
 ```
@@ -305,6 +344,10 @@ python src/export_model.py \
 
 > FZ：Freeze 微调，PT：P-Tuning V2 微调（为了与 LoRA 公平比较，我们使用了 `pre_seq_len=16`），训练参数：可训练参数占全部参数的百分比。
 
+## 友情链接
+
+- [SupritYoung/RLHF-Label-Tool](https://github.com/SupritYoung/RLHF-Label-Tool/tree/master)：一个给大模型生成结果进行排序，从而获得用于 RLHF 训练的标注数据的平台。
+
 ## 和现有类似项目的比较
 
 - [THUDM/ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B/tree/main/ptuning)
@@ -315,10 +358,10 @@ python src/export_model.py \
   - 我们借鉴了该项目的一些想法。我们的训练脚本将数据预处理部分**集成**至训练脚本中，以避免事先生成预处理后的数据。
 - [ssbuild/chatglm_finetuning](https://github.com/ssbuild/chatglm_finetuning)
   - ChatGLM 基于多种微调方法的非官方实现，使用了 [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) 数据集。
-  - 我们的训练脚本**全部**基于 [Huggingface transformers](https://github.com/huggingface/transformers) 框架实现，不依赖于额外的 [deep_training](https://github.com/ssbuild/deep_training) 框架。
+  - 我们的训练脚本**全部**基于 [Hugging Face transformers](https://github.com/huggingface/transformers) 框架实现，不依赖于额外的 [deep_training](https://github.com/ssbuild/deep_training) 框架。
 - [lich99/ChatGLM-finetune-LoRA](https://github.com/lich99/ChatGLM-finetune-LoRA)
   - ChatGLM 基于 [LoRA](https://arxiv.org/abs/2106.09685) 微调的非官方实现，使用了 [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) 数据集。
-  - 我们利用 [Huggingface PEFT](https://github.com/huggingface/peft) 框架来引入最先进的微调方法。
+  - 我们利用 [Hugging Face PEFT](https://github.com/huggingface/peft) 框架来引入最先进的微调方法。
 - [liucongg/ChatGLM-Finetuning](https://github.com/liucongg/ChatGLM-Finetuning)
   - ChatGLM 基于参数冻结、LoRA 和 P-Tuning 微调的非官方实现，使用了汽车工业数据集。
   - 我们旨在引入更多指令遵循数据集用于微调 ChatGLM 模型。
@@ -371,7 +414,7 @@ python src/export_model.py \
 
 ## 声明
 
-本项目受益于 [ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)、[ChatGLM-Tuning](https://github.com/mymusise/ChatGLM-Tuning) 和 [yuanzhoulvpi2017/zero_nlp](https://github.com/yuanzhoulvpi2017/zero_nlp)，感谢作者的付出。
+本项目受益于 [ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)、[ChatGLM-Tuning](https://github.com/mymusise/ChatGLM-Tuning) 和 [yuanzhoulvpi2017/zero_nlp](https://github.com/yuanzhoulvpi2017/zero_nlp)，感谢以上诸位作者的付出。
 
 ## Star History
 

@@ -49,6 +49,14 @@ LOCALES = {
             "value": "刷新断点"
         }
     },
+    "advanced_tab": {
+        "en": {
+            "label": "Advanced configurations"
+        },
+        "zh": {
+            "label": "高级设置"
+        }
+    },
     "quantization_bit": {
         "en": {
             "label": "Quantization bit (optional)",
@@ -71,12 +79,12 @@ LOCALES = {
     },
     "source_prefix": {
         "en": {
-            "label": "Source prefix (optional)",
-            "info": "A sequence used as the prefix of each samples."
+            "label": "System prompt (optional)",
+            "info": "A sequence used as the default system prompt."
         },
         "zh": {
-            "label": "前缀序列（非必填）",
-            "info": "作为每个输入样本前缀的序列"
+            "label": "系统提示词（非必填）",
+            "info": "默认使用的系统提示词"
         }
     },
     "dataset_dir": {
@@ -127,6 +135,26 @@ LOCALES = {
         },
         "zh": {
             "value": "关闭"
+        }
+    },
+    "max_source_length": {
+        "en": {
+            "label": "Max source length",
+            "info": "Max tokens in source sequence."
+        },
+        "zh": {
+            "label": "输入序列最大长度",
+            "info": "输入序列分词后的最大长度。"
+        }
+    },
+    "max_target_length": {
+        "en": {
+            "label": "Max target length",
+            "info": "Max tokens in target sequence."
+        },
+        "zh": {
+            "label": "输出序列最大长度",
+            "info": "输出序列分词后的最大长度。"
         }
     },
     "learning_rate": {
@@ -189,20 +217,30 @@ LOCALES = {
             "info": "采用的学习率调节器名称。"
         }
     },
-    "fp16": {
+    "max_grad_norm": {
         "en": {
-            "label": "fp16",
-            "info": "Whether to use fp16 mixed precision training."
+            "label": "Maximum gradient norm",
+            "info": "Norm for gradient clipping.."
         },
         "zh": {
-            "label": "fp16",
-            "info": "是否启用 FP16 混合精度训练。"
+            "label": "最大梯度范数",
+            "info": "用于梯度裁剪的范数。"
+        }
+    },
+    "dev_ratio": {
+        "en": {
+            "label": "Dev ratio",
+            "info": "Proportion of data in the dev set."
+        },
+        "zh": {
+            "label": "验证集比例",
+            "info": "验证集占全部样本的百分比。"
         }
     },
     "logging_steps": {
         "en": {
             "label": "Logging steps",
-            "info": "Number of update steps between two logs."
+            "info": "Number of steps between two logs."
         },
         "zh": {
             "label": "日志间隔",
@@ -212,11 +250,69 @@ LOCALES = {
     "save_steps": {
         "en": {
             "label": "Save steps",
-            "info": "Number of updates steps between two checkpoints."
+            "info": "Number of steps between two checkpoints."
         },
         "zh": {
             "label": "保存间隔",
             "info": "每两次断点保存间的更新步数。"
+        }
+    },
+    "warmup_steps": {
+        "en": {
+            "label": "Warmup steps",
+            "info": "Number of steps used for warmup."
+        },
+        "zh": {
+            "label": "预热步数",
+            "info": "学习率预热采用的步数。"
+        }
+    },
+    "compute_type": {
+        "en": {
+            "label": "Compute type",
+            "info": "Whether to use fp16 or bf16 mixed precision training."
+        },
+        "zh": {
+            "label": "计算类型",
+            "info": "是否启用 FP16 或 BF16 混合精度训练。"
+        }
+    },
+    "lora_tab": {
+        "en": {
+            "label": "LoRA configurations"
+        },
+        "zh": {
+            "label": "LoRA 参数设置"
+        }
+    },
+    "lora_rank": {
+        "en": {
+            "label": "LoRA rank",
+            "info": "The rank of LoRA matrices."
+        },
+        "zh": {
+            "label": "LoRA 秩",
+            "info": "LoRA 矩阵的秩。"
+        }
+    },
+    "lora_dropout": {
+        "en": {
+            "label": "LoRA Dropout",
+            "info": "Dropout ratio of LoRA weights."
+        },
+        "zh": {
+            "label": "LoRA 随机丢弃",
+            "info": "LoRA 权重随机丢弃的概率。"
+        }
+    },
+    "lora_target": {
+        "en": {
+            "label": "LoRA modules (optional)",
+            "info": "The name(s) of target modules to apply LoRA. Use commas to separate multiple modules."
+        },
+        "zh": {
+            "label": "LoRA 作用层（非必填）",
+            "info": "应用 LoRA 的线性层名称。使用英文逗号分隔多个名称。"
         }
     },
     "start_btn": {
@@ -293,6 +389,14 @@ LOCALES = {
             "value": "模型未加载，请先加载模型。"
         }
     },
+    "prefix": {
+        "en": {
+            "placeholder": "System prompt (optional)"
+        },
+        "zh": {
+            "placeholder": "系统提示词（非必填）"
+        }
+    },
     "query": {
         "en": {
             "placeholder": "Input..."
@@ -348,6 +452,34 @@ LOCALES = {
         "zh": {
             "label": "温度系数"
         }
+    },
+    "save_dir": {
+        "en": {
+            "label": "Export dir",
+            "info": "Directory to save exported model."
+        },
+        "zh": {
+            "label": "导出目录",
+            "info": "保存导出模型的文件夹路径。"
+        }
+    },
+    "max_shard_size": {
+        "en": {
+            "label": "Max shard size (GB)",
+            "info": "The maximum size for a model file."
+        },
+        "zh": {
+            "label": "最大分块大小（GB）",
+            "info": "模型文件的最大大小。"
+        }
+    },
+    "export_btn": {
+        "en": {
+            "value": "Export"
+        },
+        "zh": {
+            "value": "开始导出"
+        }
     }
 }
 
@@ -372,6 +504,14 @@ ALERTS = {
     "err_no_dataset": {
         "en": "Please choose a dataset.",
         "zh": "请选择数据集。"
+    },
+    "err_no_checkpoint": {
+        "en": "Please select a checkpoint.",
+        "zh": "请选择断点。"
+    },
+    "err_no_save_dir": {
+        "en": "Please provide export dir.",
+        "zh": "请填写导出目录"
     },
     "info_aborting": {
         "en": "Aborted, wait for terminating...",
@@ -400,5 +540,13 @@ ALERTS = {
     "info_unloaded": {
         "en": "Model unloaded.",
         "zh": "模型已卸载。"
+    },
+    "info_exporting": {
+        "en": "Exporting model...",
+        "zh": "正在导出模型……"
+    },
+    "info_exported": {
+        "en": "Model exported.",
+        "zh": "模型导出完成。"
     }
 }

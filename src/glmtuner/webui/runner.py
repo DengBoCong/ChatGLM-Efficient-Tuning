@@ -3,7 +3,7 @@ import os
 import threading
 import time
 import transformers
-from typing import List, Optional, Tuple
+from typing import Generator, List, Optional, Tuple
 
 from glmtuner.extras.callbacks import LogCallback
 from glmtuner.extras.logging import LoggerHandler
@@ -24,7 +24,9 @@ class Runner:
         self.aborted = True
         self.running = False
 
-    def initialize(self, lang: str, model_name: str, dataset: list) -> Tuple[str, str, LoggerHandler, LogCallback]:
+    def initialize(
+        self, lang: str, model_name: str, dataset: List[str]
+    ) -> Tuple[str, str, LoggerHandler, LogCallback]:
         if self.running:
             return None, ALERTS["err_conflict"][lang], None, None
 
@@ -49,7 +51,9 @@ class Runner:
 
         return model_name_or_path, "", logger_handler, trainer_callback
 
-    def finalize(self, lang: str, finish_info: Optional[str] = None) -> str:
+    def finalize(
+        self, lang: str, finish_info: Optional[str] = None
+    ) -> str:
         self.running = False
         torch_gc()
         if self.aborted:
@@ -67,17 +71,25 @@ class Runner:
         source_prefix: str,
         dataset_dir: str,
         dataset: List[str],
+        max_source_length: int,
+        max_target_length: int,
         learning_rate: str,
         num_train_epochs: str,
         max_samples: str,
         batch_size: int,
         gradient_accumulation_steps: int,
         lr_scheduler_type: str,
-        fp16: bool,
+        max_grad_norm: str,
+        dev_ratio: float,
         logging_steps: int,
         save_steps: int,
+        warmup_steps: int,
+        compute_type: str,
+        lora_rank: int,
+        lora_dropout: float,
+        lora_target: str,
         output_dir: str
-    ):
+    ) -> Generator[str, None, None]:
         model_name_or_path, error, logger_handler, trainer_callback = self.initialize(lang, model_name, dataset)
         if error:
             yield error
@@ -100,17 +112,32 @@ class Runner:
             source_prefix=source_prefix,
             dataset_dir=dataset_dir,
             dataset=",".join(dataset),
+            max_source_length=max_source_length,
+            max_target_length=max_target_length,
             learning_rate=float(learning_rate),
             num_train_epochs=float(num_train_epochs),
             max_samples=int(max_samples),
             per_device_train_batch_size=batch_size,
             gradient_accumulation_steps=gradient_accumulation_steps,
             lr_scheduler_type=lr_scheduler_type,
-            fp16=fp16,
+            max_grad_norm=float(max_grad_norm),
             logging_steps=logging_steps,
             save_steps=save_steps,
+            warmup_steps=warmup_steps,
+            fp16=(compute_type == "fp16"),
+            bf16=(compute_type == "bf16"),
+            lora_rank=lora_rank,
+            lora_dropout=lora_dropout,
+            lora_target=lora_target or "query_key_value",
             output_dir=os.path.join(get_save_dir(model_name), finetuning_type, output_dir)
         )
+
+        if dev_ratio > 1e-6:
+            args["dev_ratio"] = dev_ratio
+            args["evaluation_strategy"] = "steps"
+            args["eval_steps"] = save_steps
+            args["load_best_model_at_end"] = True
+
         model_args, data_args, training_args, finetuning_args, _ = get_train_args(args)
 
         run_args = dict(
@@ -142,10 +169,12 @@ class Runner:
         source_prefix: str,
         dataset_dir: str,
         dataset: List[str],
+        max_source_length: int,
+        max_target_length: int,
         max_samples: str,
         batch_size: int,
         predict: bool
-    ):
+    ) -> Generator[str, None, None]:
         model_name_or_path, error, logger_handler, trainer_callback = self.initialize(lang, model_name, dataset)
         if error:
             yield error
@@ -171,6 +200,8 @@ class Runner:
             source_prefix=source_prefix,
             dataset_dir=dataset_dir,
             dataset=",".join(dataset),
+            max_source_length=max_source_length,
+            max_target_length=max_target_length,
             max_samples=int(max_samples),
             per_device_eval_batch_size=batch_size,
             output_dir=output_dir
